@@ -1,0 +1,202 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Login - Habiba's Blog{% endblock %}
+{% block meta_description %}Login to your account to access personalized content and features.{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6">Welcome Back</h1>
+        <p class="text-xl md:text-2xl text-primary-100 max-w-3xl mx-auto">
+            Sign in to your account to access personalized content and features.
+        </p>
+    </div>
+</section>
+
+<!-- Login Form -->
+<section class="py-16 bg-white">
+    <div class="max-w-md mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-xl shadow-lg p-8 border border-gray-100">
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-user-lock text-2xl text-primary-600"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-secondary-900">Sign In</h2>
+                <p class="text-secondary-600 mt-2">Enter your credentials to continue</p>
+            </div>
+            
+            {% if form.errors %}
+            <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-exclamation-circle text-red-400"></i>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-sm font-medium text-red-800">Login Error</h3>
+                        <div class="mt-2 text-sm text-red-700">
+                            <ul class="list-disc pl-5 space-y-1">
+                                {% for field, errors in form.errors.items %}
+                                    {% for error in errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            <form method="POST" class="space-y-6">
+                {% csrf_token %}
+                
+                <div>
+                    <label for="{{ form.username.id_for_label }}" class="block text-sm font-medium text-secondary-700 mb-2">
+                        Username or Email
+                    </label>
+                    <input type="text" 
+                           name="{{ form.username.name }}" 
+                           id="{{ form.username.id_for_label }}"
+                           value="{{ form.username.value|default:'' }}"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                           placeholder="Enter your username or email"
+                           required>
+                    {% if form.username.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ form.username.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <div>
+                    <label for="{{ form.password.id_for_label }}" class="block text-sm font-medium text-secondary-700 mb-2">
+                        Password
+                    </label>
+                    <input type="password" 
+                           name="{{ form.password.name }}" 
+                           id="{{ form.password.id_for_label }}"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                           placeholder="Enter your password"
+                           required>
+                    {% if form.password.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ form.password.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input type="checkbox" id="remember" name="remember" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded">
+                        <label for="remember" class="ml-2 block text-sm text-secondary-700">
+                            Remember me
+                        </label>
+                    </div>
+                    
+                    <div class="text-sm">
+                        <a href="#" class="font-medium text-primary-600 hover:text-primary-500">
+                            Forgot password?
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <button type="submit" class="w-full btn-primary py-3 text-lg">
+                        <i class="fas fa-sign-in-alt mr-2"></i>
+                        Sign In
+                    </button>
+                </div>
+            </form>
+            
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <div class="text-center">
+                    <p class="text-sm text-secondary-600">
+                        Don't have an account? 
+                        <a href="{% url 'users:register' %}" class="font-medium text-primary-600 hover:text-primary-500">
+                            Sign up here
+                        </a>
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Social Login Options -->
+            <div class="mt-8">
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-white text-secondary-500">Or continue with</span>
+                    </div>
+                </div>
+                
+                <div class="mt-6 grid grid-cols-2 gap-3">
+                    <button class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors">
+                        <i class="fab fa-google text-red-500 mr-2"></i>
+                        Google
+                    </button>
+                    
+                    <button class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors">
+                        <i class="fab fa-github text-gray-700 mr-2"></i>
+                        GitHub
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-16 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-secondary-900 mb-4">Why Sign In?</h2>
+            <p class="text-lg text-secondary-600 max-w-2xl mx-auto">Unlock personalized features and content</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-bookmark text-primary-600 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-secondary-900 mb-3">Save Favorites</h3>
+                <p class="text-secondary-600">Bookmark your favorite posts and articles for later reading.</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-comments text-primary-600 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-secondary-900 mb-3">Comment & Engage</h3>
+                <p class="text-secondary-600">Join discussions and share your thoughts on blog posts.</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-bell text-primary-600 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-secondary-900 mb-3">Get Notifications</h3>
+                <p class="text-secondary-600">Receive updates on new posts and responses to your comments.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-16 bg-primary-600 text-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Ready to Get Started?</h2>
+        <p class="text-xl text-primary-100 mb-8">
+            Join our community and start exploring amazing content.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{% url 'users:register' %}" class="btn-secondary text-lg px-8 py-4">
+                <i class="fas fa-user-plus mr-2"></i>
+                Create Account
+            </a>
+            <a href="{% url 'blog:post_list' %}" class="btn-primary text-lg px-8 py-4">
+                <i class="fas fa-book-open mr-2"></i>
+                Browse Blog
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

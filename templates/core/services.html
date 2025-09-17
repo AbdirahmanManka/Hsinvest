@@ -1,0 +1,361 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Services - Habiba's Blog{% endblock %}
+{% block meta_description %}Professional services offered by Habiba including web development, consulting, and technical expertise.{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6">Services</h1>
+        <p class="text-xl md:text-2xl text-primary-100 max-w-3xl mx-auto">
+            Financial education and guidance services to help you build confidence with money.
+        </p>
+    </div>
+</section>
+
+<!-- Services Content -->
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {% if page %}
+        <div class="prose prose-lg max-w-none mb-12">
+            {{ page.content|safe }}
+        </div>
+        {% endif %}
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for service in services %}
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-100">
+                {% if service.image %}
+                <img src="{{ service.image.url }}" alt="{{ service.title }}" class="w-full h-48 object-cover">
+                {% else %}
+                <div class="w-full h-48 bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
+                    <i class="{{ service.icon|default:'fas fa-cog' }} text-4xl text-primary-400"></i>
+                </div>
+                {% endif %}
+                
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-xl font-bold text-secondary-900">{{ service.title }}</h3>
+                        {% if service.is_featured %}
+                        <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-medium">
+                            Featured
+                        </span>
+                        {% endif %}
+                    </div>
+                    
+                    <p class="text-secondary-600 mb-4">{{ service.description }}</p>
+                    
+                    {% if service.features %}
+                    <ul class="space-y-2 mb-4">
+                        {% for feature in service.features.all %}
+                        <li class="flex items-center text-sm text-secondary-600">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            {{ feature.name }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    
+                    {% if service.price %}
+                    <div class="text-center mb-4">
+                        <span class="text-2xl font-bold text-primary-600">${{ service.price }}</span>
+                        {% if service.price_period %}
+                        <span class="text-secondary-500 text-sm">/{{ service.price_period }}</span>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    
+                    <div class="text-center">
+                        <a href="{% url 'core:contact' %}" class="btn-primary w-full">
+                            <i class="fas fa-envelope mr-2"></i>
+                            Get Quote
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <!-- HasilInvest Services -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-100">
+                <div class="w-full h-48 bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center">
+                    <i class="fas fa-search text-4xl text-primary-400"></i>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-secondary-900 mb-3">Research & Insights</h3>
+                    <p class="text-secondary-600 mb-4">
+                        Easy-to-digest insights on markets and investments, breaking down complex financial concepts into simple terms.
+                    </p>
+                    <ul class="space-y-2 mb-4">
+                        <li class="flex items-center text-sm text-secondary-600">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Market analysis
+                        </li>
+                        <li class="flex items-center text-sm text-secondary-600">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Investment research
+                        </li>
+                        <li class="flex items-center text-sm text-secondary-600">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Clear explanations
+                        </li>
+                    </ul>
+                    <div class="text-center">
+                        <a href="{% url 'core:contact' %}" class="btn-primary w-full">
+                            <i class="fas fa-envelope mr-2"></i>
+                            Learn More
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-100">
+                <div class="w-full h-48 bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center">
+                    <i class="fas fa-chalkboard-teacher text-4xl text-green-400"></i>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-secondary-900 mb-3">Workshops & Webinars</h3>
+                    <p class="text-secondary-600 mb-4">
+                        Educational sessions on starting to invest, financial literacy, and halal finance principles.
+                    </p>
+                    <ul class="space-y-2 mb-4">
+                        <li class="flex items-center text-sm text-secondary-600">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Investment basics
+                        </li>
+                        <li class="flex items-center text-sm text-secondary-600">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Financial literacy
+                        </li>
+                        <li class="flex items-center text-sm text-secondary-600">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Halal finance
+                        </li>
+                    </ul>
+                    <div class="text-center">
+                        <a href="{% url 'core:contact' %}" class="btn-primary w-full">
+                            <i class="fas fa-envelope mr-2"></i>
+                            Register
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-100">
+                <div class="w-full h-48 bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center">
+                    <i class="fas fa-user-friends text-4xl text-purple-400"></i>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-secondary-900 mb-3">Coaching & Guidance</h3>
+                    <p class="text-secondary-600 mb-4">
+                        One-on-one or group coaching for budgeting and investing, tailored for students and young professionals.
+                    </p>
+                    <ul class="space-y-2 mb-4">
+                        <li class="flex items-center text-sm text-secondary-600">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Personal coaching
+                        </li>
+                        <li class="flex items-center text-sm text-secondary-600">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Group sessions
+                        </li>
+                        <li class="flex items-center text-sm text-secondary-600">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Budgeting help
+                        </li>
+                    </ul>
+                    <div class="text-center">
+                        <a href="{% url 'core:contact' %}" class="btn-primary w-full">
+                            <i class="fas fa-envelope mr-2"></i>
+                            Book Session
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-100">
+                <div class="w-full h-48 bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center">
+                    <i class="fas fa-graduation-cap text-4xl text-orange-400"></i>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-secondary-900 mb-3">Student & Newcomer Support</h3>
+                    <p class="text-secondary-600 mb-4">
+                        Specialized guidance for students, newcomers, and young professionals in Canada.
+                    </p>
+                    <ul class="space-y-2 mb-4">
+                        <li class="flex items-center text-sm text-secondary-600">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Student-focused advice
+                        </li>
+                        <li class="flex items-center text-sm text-secondary-600">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Newcomer guidance
+                        </li>
+                        <li class="flex items-center text-sm text-secondary-600">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Canada-specific tips
+                        </li>
+                    </ul>
+                    <div class="text-center">
+                        <a href="{% url 'core:contact' %}" class="btn-primary w-full">
+                            <i class="fas fa-envelope mr-2"></i>
+                            Get Started
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-100">
+                <div class="w-full h-48 bg-gradient-to-br from-teal-100 to-teal-200 flex items-center justify-center">
+                    <i class="fas fa-handshake text-4xl text-teal-400"></i>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-secondary-900 mb-3">Community Partnerships</h3>
+                    <p class="text-secondary-600 mb-4">
+                        Collaborating with organizations to promote financial literacy and empowerment.
+                    </p>
+                    <ul class="space-y-2 mb-4">
+                        <li class="flex items-center text-sm text-secondary-600">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Community outreach
+                        </li>
+                        <li class="flex items-center text-sm text-secondary-600">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Financial literacy programs
+                        </li>
+                        <li class="flex items-center text-sm text-secondary-600">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Empowerment initiatives
+                        </li>
+                    </ul>
+                    <div class="text-center">
+                        <a href="{% url 'core:contact' %}" class="btn-primary w-full">
+                            <i class="fas fa-envelope mr-2"></i>
+                            Partner With Us
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Process Section -->
+<section class="py-16 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">Our Approach</h2>
+            <p class="text-lg text-secondary-600 max-w-2xl mx-auto">How we help you build confidence with money</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-comments text-2xl text-primary-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-secondary-900 mb-3">Assessment</h3>
+                <p class="text-secondary-600">Understanding your current financial situation and goals through personalized consultation.</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-graduation-cap text-2xl text-primary-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-secondary-900 mb-3">Education</h3>
+                <p class="text-secondary-600">Providing clear, simple explanations of financial concepts and investment strategies.</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-route text-2xl text-primary-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-secondary-900 mb-3">Guidance</h3>
+                <p class="text-secondary-600">Creating a personalized roadmap for your financial journey with step-by-step guidance.</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-hands-helping text-2xl text-primary-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-secondary-900 mb-3">Support</h3>
+                <p class="text-secondary-600">Ongoing support and community to help you stay on track and achieve your goals.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Technologies Section -->
+<section class="py-16 bg-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">Our Focus Areas</h2>
+            <p class="text-lg text-secondary-600 max-w-2xl mx-auto">Key areas of financial education and expertise</p>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-6 gap-8">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-chart-line text-primary-600 text-2xl"></i>
+                </div>
+                <h3 class="font-bold text-secondary-900">Stocks</h3>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-chart-pie text-green-600 text-2xl"></i>
+                </div>
+                <h3 class="font-bold text-secondary-900">ETFs</h3>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-university text-purple-600 text-2xl"></i>
+                </div>
+                <h3 class="font-bold text-secondary-900">Bonds</h3>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-mosque text-orange-600 text-2xl"></i>
+                </div>
+                <h3 class="font-bold text-secondary-900">Halal Finance</h3>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-piggy-bank text-red-600 text-2xl"></i>
+                </div>
+                <h3 class="font-bold text-secondary-900">Budgeting</h3>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-graduation-cap text-gray-600 text-2xl"></i>
+                </div>
+                <h3 class="font-bold text-secondary-900">Financial Literacy</h3>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact CTA -->
+<section class="py-16 bg-primary-600 text-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Ready to Get Started?</h2>
+        <p class="text-xl text-primary-100 mb-8">
+            Let's discuss your project and how we can help bring your vision to life.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{% url 'core:contact' %}" class="btn-secondary text-lg px-8 py-4">
+                <i class="fas fa-envelope mr-2"></i>
+                Contact Us
+            </a>
+            <a href="{% url 'core:about' %}" class="btn-primary text-lg px-8 py-4">
+                <i class="fas fa-user mr-2"></i>
+                Learn More
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

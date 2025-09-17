@@ -1,0 +1,228 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - HasilInvest: Halal Investing in Canada{% endblock %}
+{% block meta_description %}Expert financial advice, Islamic finance, and halal investing guidance for Canadian Muslims. Make informed financial decisions with Sharia-compliant investments.{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6">
+            Welcome to <span class="text-yellow-300">HasilInvest</span>
+        </h1>
+        <p class="text-xl md:text-2xl mb-8 text-primary-100 max-w-3xl mx-auto">
+            A platform to make investing and personal finance easy to understand for everyone — open to anyone who wants to grow wealth responsibly. Ethically driven, with guidance for halal-conscious investors.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{% url 'blog:post_list' %}" class="btn-primary text-lg px-8 py-4">
+                <i class="fas fa-blog mr-2"></i>
+                Blogs
+            </a>
+            <a href="{% url 'core:about' %}" class="btn-secondary text-lg px-8 py-4">
+                <i class="fas fa-chart-line mr-2"></i>
+                About HasilInvest
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Posts Section -->
+{% if featured_posts %}
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">Featured Posts</h2>
+            <p class="text-lg text-secondary-600 max-w-2xl mx-auto">Discover our most popular and insightful articles</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for post in featured_posts %}
+            <article class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                {% if post.featured_image %}
+                <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="w-full h-48 object-cover featured-post-image">
+                {% else %}
+                <div class="w-full h-48 bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
+                    <i class="fas fa-image text-4xl text-primary-400"></i>
+                </div>
+                {% endif %}
+                
+                <div class="p-6">
+                    <div class="flex items-center text-sm text-secondary-500 mb-3">
+                        <span class="bg-primary-100 text-primary-800 px-2 py-1 rounded-full text-xs font-medium">
+                            {{ post.category.name|default:"Uncategorized" }}
+                        </span>
+                        <span class="mx-2">•</span>
+                        <span>{{ post.published_at|date:"M d, Y" }}</span>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold text-secondary-900 mb-3 line-clamp-2">
+                        <a href="{% url 'blog:post_detail' post.slug %}" class="hover:text-primary-600 transition-colors">
+                            {{ post.title }}
+                        </a>
+                    </h3>
+                    
+                    <p class="text-secondary-600 mb-4 line-clamp-3">{{ post.excerpt|default:post.content|truncatewords:20 }}</p>
+                    
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-user text-primary-600 text-sm"></i>
+                            </div>
+                            <span class="text-sm text-secondary-600">{{ post.author.get_full_name|default:post.author.username }}</span>
+                        </div>
+                        <a href="{% url 'blog:post_detail' post.slug %}" class="text-primary-600 hover:text-primary-800 font-medium text-sm">
+                            Read More →
+                        </a>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-12">
+            <a href="{% url 'blog:post_list' %}" class="btn-primary">
+                View All Posts
+                <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Latest Posts Section -->
+{% if latest_posts %}
+<section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">Latest Posts</h2>
+            <p class="text-lg text-secondary-600 max-w-2xl mx-auto">Stay updated with our newest content</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for post in latest_posts %}
+            <article class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                {% if post.featured_image %}
+                <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="w-full h-40 object-cover blog-card-image">
+                {% else %}
+                <div class="w-full h-40 bg-gradient-to-br from-secondary-100 to-secondary-200 flex items-center justify-center">
+                    <i class="fas fa-image text-3xl text-secondary-400"></i>
+                </div>
+                {% endif %}
+                
+                <div class="p-5">
+                    <div class="flex items-center text-sm text-secondary-500 mb-2">
+                        <span class="bg-secondary-100 text-secondary-700 px-2 py-1 rounded-full text-xs font-medium">
+                            {{ post.category.name|default:"Uncategorized" }}
+                        </span>
+                        <span class="mx-2">•</span>
+                        <span>{{ post.published_at|date:"M d" }}</span>
+                    </div>
+                    
+                    <h3 class="text-lg font-bold text-secondary-900 mb-2 line-clamp-2">
+                        <a href="{% url 'blog:post_detail' post.slug %}" class="hover:text-primary-600 transition-colors">
+                            {{ post.title }}
+                        </a>
+                    </h3>
+                    
+                    <p class="text-secondary-600 text-sm mb-3 line-clamp-2">{{ post.excerpt|default:post.content|truncatewords:15 }}</p>
+                    
+                    <a href="{% url 'blog:post_detail' post.slug %}" class="text-primary-600 hover:text-primary-800 font-medium text-sm">
+                        Read More →
+                    </a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Services Section -->
+{% if featured_services %}
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">Services</h2>
+            <p class="text-lg text-secondary-600 max-w-2xl mx-auto">Professional services and expertise areas</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {% for service in featured_services %}
+            <div class="text-center p-6 rounded-xl bg-gradient-to-br from-primary-50 to-primary-100 hover:from-primary-100 hover:to-primary-200 transition-all duration-300">
+                <div class="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="{{ service.icon|default:'fas fa-cog' }} text-white text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-secondary-900 mb-3">{{ service.title }}</h3>
+                <p class="text-secondary-600">{{ service.description }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-12">
+            <a href="{% url 'core:services' %}" class="btn-secondary">
+                View All Services
+                <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Testimonials Section -->
+{% if testimonials %}
+<section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">What People Say</h2>
+            <p class="text-lg text-secondary-600 max-w-2xl mx-auto">Testimonials from clients and colleagues</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for testimonial in testimonials %}
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mr-4">
+                        <i class="fas fa-user text-primary-600"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-secondary-900">{{ testimonial.name }}</h4>
+                        <p class="text-sm text-secondary-600">{{ testimonial.position|default:"Client" }}</p>
+                    </div>
+                </div>
+                <p class="text-secondary-700 italic">"{{ testimonial.content }}"</p>
+                {% if testimonial.rating %}
+                <div class="flex items-center mt-3">
+                    {% for i in "12345" %}
+                    <i class="fas fa-star {% if forloop.counter <= testimonial.rating %}text-yellow-400{% else %}text-gray-300{% endif %} text-sm"></i>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Newsletter Section -->
+<section class="py-16 bg-primary-600 text-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Stay Updated</h2>
+        <p class="text-xl text-primary-100 mb-8">Subscribe to get the latest financial insights and responsible investing guidance delivered to your inbox.</p>
+        
+        <form method="POST" action="{% url 'newsletter:subscribe' %}" class="max-w-md mx-auto">
+            {% csrf_token %}
+            <div class="flex flex-col sm:flex-row gap-3">
+                <input type="email" name="email" placeholder="Your email address" 
+                       class="flex-1 px-4 py-3 rounded-lg text-secondary-900 placeholder-secondary-500 focus:outline-none focus:ring-2 focus:ring-white" required>
+                <button type="submit" class="px-6 py-3 bg-white text-primary-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors">
+                    Subscribe
+                </button>
+            </div>
+        </form>
+        
+        <p class="text-sm text-primary-200 mt-4">No spam, unsubscribe at any time.</p>
+    </div>
+</section>
+{% endblock %}

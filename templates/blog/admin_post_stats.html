@@ -1,0 +1,202 @@
+{% extends 'base.html' %}
+
+{% block title %}Blog Statistics - Admin Dashboard{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="bg-gradient-to-r from-orange-600 to-red-600 text-white py-16">
+    <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">Blog Statistics</h1>
+        <p class="text-xl opacity-90 max-w-2xl mx-auto">
+            Monitor your blog's performance, ratings, and engagement metrics
+        </p>
+    </div>
+</div>
+
+<!-- Statistics Overview -->
+<div class="bg-white border-b border-gray-200">
+    <div class="container mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <!-- Total Posts -->
+            <div class="text-center p-6 bg-primary-50 rounded-lg">
+                <div class="text-3xl font-bold text-primary-600">{{ total_posts }}</div>
+                <div class="text-primary-800 font-medium">Total Posts</div>
+                <div class="text-primary-600 text-sm">All time</div>
+            </div>
+            
+            <!-- Published Posts -->
+            <div class="text-center p-6 bg-green-50 rounded-lg">
+                <div class="text-3xl font-bold text-green-600">{{ published_posts }}</div>
+                <div class="text-green-800 font-medium">Published</div>
+                <div class="text-green-600 text-sm">Live content</div>
+            </div>
+            
+            <!-- Draft Posts -->
+            <div class="text-center p-6 bg-yellow-50 rounded-lg">
+                <div class="text-3xl font-bold text-yellow-600">{{ draft_posts }}</div>
+                <div class="text-yellow-800 font-medium">Drafts</div>
+                <div class="text-yellow-600 text-sm">In progress</div>
+            </div>
+            
+            <!-- Featured Posts -->
+            <div class="text-center p-6 bg-purple-50 rounded-lg">
+                <div class="text-3xl font-bold text-purple-600">{{ featured_posts }}</div>
+                <div class="text-purple-800 font-medium">Featured</div>
+                <div class="text-purple-600 text-sm">Highlighted</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Rating & Engagement Stats -->
+<div class="bg-gray-50 border-b border-gray-200">
+    <div class="container mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Average Rating -->
+            <div class="text-center p-6 bg-white rounded-lg shadow-sm">
+                <div class="text-3xl font-bold text-orange-600">{{ avg_rating|floatformat:1 }}</div>
+                <div class="text-orange-800 font-medium">Average Rating</div>
+                <div class="text-orange-600 text-sm">Out of 5 stars</div>
+            </div>
+            
+            <!-- Total Ratings -->
+            <div class="text-center p-6 bg-white rounded-lg shadow-sm">
+                <div class="text-3xl font-bold text-indigo-600">{{ total_ratings }}</div>
+                <div class="text-indigo-800 font-medium">Total Ratings</div>
+                <div class="text-indigo-600 text-sm">User feedback</div>
+            </div>
+            
+            <!-- Total Views -->
+            <div class="text-center p-6 bg-white rounded-lg shadow-sm">
+                <div class="text-3xl font-bold text-teal-600">{{ total_views }}</div>
+                <div class="text-teal-800 font-medium">Total Views</div>
+                <div class="text-teal-600 text-sm">Page visits</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Activity -->
+<div class="py-12 bg-white">
+    <div class="container mx-auto px-4">
+        <!-- Action Buttons -->
+        <div class="mb-8 flex flex-col sm:flex-row gap-4">
+            <a href="{% url 'core:admin_dashboard' %}" class="inline-flex items-center px-6 py-3 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 transition-colors">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Back to Dashboard
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Recent Posts -->
+            <div class="bg-gray-50 rounded-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    Recent Posts
+                </h3>
+                
+                {% if recent_posts %}
+                <div class="space-y-3">
+                    {% for post in recent_posts %}
+                    <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm">
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-medium text-gray-900 truncate">
+                                <a href="{% url 'blog:post_detail' post.slug %}" class="hover:text-primary-600">
+                                    {{ post.title }}
+                                </a>
+                            </h4>
+                            <p class="text-xs text-gray-500">{{ post.created_at|date:"M d, Y" }}</p>
+                        </div>
+                        <div class="ml-3">
+                            {% if post.status == 'published' %}
+                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Published
+                            </span>
+                            {% else %}
+                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                Draft
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center py-8">
+                    <p class="text-gray-500">No posts yet</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Recent Comments -->
+            <div class="bg-gray-50 rounded-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                    Recent Comments
+                </h3>
+                
+                {% if recent_comments %}
+                <div class="space-y-3">
+                    {% for comment in recent_comments %}
+                    <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm">
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm text-gray-900 truncate">{{ comment.content|truncatewords:8 }}</p>
+                                                         <p class="text-xs text-gray-500">
+                                 by {{ comment.name|default:"Anonymous" }}
+                                 on {{ comment.created_at|date:"M d, Y" }}
+                             </p>
+                        </div>
+                        <div class="ml-3">
+                            {% if comment.is_approved %}
+                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Approved
+                            </span>
+                            {% else %}
+                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                Pending
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center py-8">
+                    <p class="text-gray-500">No comments yet</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <a href="{% url 'blog:create_post' %}" class="flex items-center justify-center p-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                Create New Post
+            </a>
+            
+            <a href="{% url 'blog:admin_post_list' %}" class="flex items-center justify-center p-4 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                </svg>
+                Manage Posts
+            </a>
+            
+            <a href="{% url 'blog:admin_comment_list' %}" class="flex items-center justify-center p-4 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                </svg>
+                Manage Comments
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

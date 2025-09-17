@@ -1,0 +1,320 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Profile - Habiba's Blog{% endblock %}
+{% block meta_description %}View and manage your profile, posts, and account settings.{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6">My Profile</h1>
+        <p class="text-xl md:text-2xl text-primary-100 max-w-3xl mx-auto">
+            Manage your account, view your posts, and customize your experience.
+        </p>
+    </div>
+</section>
+
+<!-- Profile Information -->
+<section class="py-16 bg-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-xl shadow-lg p-8 border border-gray-100">
+            <div class="flex flex-col md:flex-row items-start gap-8">
+                <!-- Profile Avatar -->
+                <div class="flex-shrink-0">
+                    <div class="w-32 h-32 bg-gradient-to-br from-primary-100 to-primary-200 rounded-full flex items-center justify-center">
+                        {% if user.profile.avatar %}
+                        <img src="{{ user.profile.avatar.url }}" alt="{{ user.get_full_name }}" class="w-32 h-32 rounded-full object-cover">
+                        {% else %}
+                        <i class="fas fa-user text-4xl text-primary-600"></i>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Profile Details -->
+                <div class="flex-1">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h2 class="text-3xl font-bold text-secondary-900">{{ user.get_full_name|default:user.username }}</h2>
+                            <p class="text-lg text-secondary-600">@{{ user.username }}</p>
+                            {% if user.profile.bio %}
+                            <p class="text-secondary-700 mt-2">{{ user.profile.bio }}</p>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="flex space-x-3">
+                            <a href="#" class="btn-secondary">
+                                <i class="fas fa-edit mr-2"></i>
+                                Edit Profile
+                            </a>
+                            <a href="#" class="btn-primary">
+                                <i class="fas fa-cog mr-2"></i>
+                                Settings
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Profile Stats -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <div class="text-center p-4 bg-gray-50 rounded-lg">
+                            <div class="text-2xl font-bold text-primary-600">{{ user.posts.count|default:0 }}</div>
+                            <div class="text-sm text-secondary-600">Posts</div>
+                        </div>
+                        
+                        <div class="text-center p-4 bg-gray-50 rounded-lg">
+                            <div class="text-2xl font-bold text-primary-600">{{ user.comments.count|default:0 }}</div>
+                            <div class="text-sm text-secondary-600">Comments</div>
+                        </div>
+                        
+                        <div class="text-center p-4 bg-gray-50 rounded-lg">
+                            <div class="text-2xl font-bold text-primary-600">{{ user.date_joined|date:"M Y" }}</div>
+                            <div class="text-sm text-secondary-600">Member Since</div>
+                        </div>
+                        
+                        <div class="text-center p-4 bg-gray-50 rounded-lg">
+                            <div class="text-2xl font-bold text-primary-600">{{ user.last_login|date:"M d"|default:"Never" }}</div>
+                            <div class="text-sm text-secondary-600">Last Login</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Information -->
+                    {% if user.email or user.profile.website or user.profile.location %}
+                    <div class="mt-8 pt-6 border-t border-gray-200">
+                        <h3 class="text-lg font-semibold text-secondary-900 mb-4">Contact Information</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            {% if user.email %}
+                            <div class="flex items-center">
+                                <i class="fas fa-envelope text-primary-600 mr-3"></i>
+                                <span class="text-secondary-700">{{ user.email }}</span>
+                            </div>
+                            {% endif %}
+                            
+                            {% if user.profile.website %}
+                            <div class="flex items-center">
+                                <i class="fas fa-globe text-primary-600 mr-3"></i>
+                                <a href="{{ user.profile.website }}" target="_blank" class="text-primary-600 hover:text-primary-800">
+                                    {{ user.profile.website }}
+                                </a>
+                            </div>
+                            {% endif %}
+                            
+                            {% if user.profile.location %}
+                            <div class="flex items-center">
+                                <i class="fas fa-map-marker-alt text-primary-600 mr-3"></i>
+                                <span class="text-secondary-700">{{ user.profile.location }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- User's Posts -->
+<section class="py-16 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between mb-8">
+            <h2 class="text-3xl font-bold text-secondary-900">My Posts</h2>
+            <a href="#" class="btn-primary">
+                <i class="fas fa-plus mr-2"></i>
+                Create New Post
+            </a>
+        </div>
+        
+        {% if user.posts.all %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for post in user.posts.all %}
+            <article class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border border-gray-100">
+                {% if post.featured_image %}
+                <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="w-full h-48 object-cover">
+                {% else %}
+                <div class="w-full h-48 bg-gradient-to-br from-secondary-100 to-secondary-200 flex items-center justify-center">
+                    <i class="fas fa-image text-3xl text-secondary-400"></i>
+                </div>
+                {% endif %}
+                
+                <div class="p-6">
+                    <div class="flex items-center text-sm text-secondary-500 mb-3">
+                        <span class="bg-secondary-100 text-secondary-700 px-2 py-1 rounded-full text-xs font-medium">
+                            {{ post.category.name|default:"Uncategorized" }}
+                        </span>
+                        <span class="mx-2">•</span>
+                        <span>{{ post.published_at|date:"M d, Y"|default:"Draft" }}</span>
+                        <span class="mx-2">•</span>
+                        <span class="{% if post.status == 'published' %}text-green-600{% elif post.status == 'draft' %}text-yellow-600{% else %}text-red-600{% endif %}">
+                            {{ post.status|title }}
+                        </span>
+                    </div>
+                    
+                    <h3 class="text-lg font-bold text-secondary-900 mb-3 line-clamp-2">
+                        <a href="{% url 'blog:post_detail' post.slug %}" class="hover:text-primary-600 transition-colors">
+                            {{ post.title }}
+                        </a>
+                    </h3>
+                    
+                    <p class="text-secondary-600 text-sm mb-4 line-clamp-3">{{ post.excerpt|default:post.content|truncatewords:15 }}</p>
+                    
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3 text-sm text-secondary-500">
+                            {% if post.views_count %}
+                            <span class="flex items-center">
+                                <i class="fas fa-eye mr-1"></i>
+                                {{ post.views_count }}
+                            </span>
+                            {% endif %}
+                            {% if post.comments.count %}
+                            <span class="flex items-center">
+                                <i class="fas fa-comments mr-1"></i>
+                                {{ post.comments.count }}
+                            </span>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="flex space-x-2">
+                            <a href="#" class="text-primary-600 hover:text-primary-800">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="#" class="text-red-600 hover:text-red-800">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-16">
+            <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-edit text-3xl text-gray-400"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-secondary-900 mb-2">No posts yet</h3>
+            <p class="text-secondary-600 mb-6">Start sharing your thoughts and experiences with the community!</p>
+            <a href="#" class="btn-primary">
+                <i class="fas fa-plus mr-2"></i>
+                Create Your First Post
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- User's Comments -->
+<section class="py-16 bg-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold text-secondary-900 mb-8">My Comments</h2>
+        
+        {% if user.comments.all %}
+        <div class="space-y-6">
+            {% for comment in user.comments.all %}
+            <div class="bg-gray-50 rounded-xl p-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center mr-3">
+                            <i class="fas fa-user text-primary-600"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-secondary-900">{{ comment.name }}</h4>
+                            <p class="text-sm text-secondary-500">{{ comment.created_at|date:"M d, Y \a\t g:i A" }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-2">
+                        <a href="#" class="text-primary-600 hover:text-primary-800">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="#" class="text-red-600 hover:text-red-800">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="prose prose-sm max-w-none mb-4">
+                    {{ comment.content|linebreaks }}
+                </div>
+                
+                <div class="text-sm text-secondary-500">
+                    On post: 
+                    <a href="{% url 'blog:post_detail' comment.post.slug %}" class="text-primary-600 hover:text-primary-800">
+                        {{ comment.post.title }}
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-16">
+            <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-comments text-3xl text-gray-400"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-secondary-900 mb-2">No comments yet</h3>
+            <p class="text-secondary-600 mb-6">Start engaging with the community by commenting on posts!</p>
+            <a href="{% url 'blog:post_list' %}" class="btn-primary">
+                <i class="fas fa-book-open mr-2"></i>
+                Browse Posts
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Account Actions -->
+<section class="py-16 bg-gray-50">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold text-secondary-900 mb-8 text-center">Account Actions</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-edit text-primary-600 text-xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-secondary-900 mb-3">Edit Profile</h3>
+                <p class="text-secondary-600 mb-4">Update your personal information and preferences.</p>
+                <a href="#" class="btn-secondary w-full">Edit Profile</a>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-cog text-primary-600 text-xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-secondary-900 mb-3">Account Settings</h3>
+                <p class="text-secondary-600 mb-4">Manage your account security and notification preferences.</p>
+                <a href="#" class="btn-secondary w-full">Settings</a>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-sign-out-alt text-red-600 text-xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-secondary-900 mb-3">Sign Out</h3>
+                <p class="text-secondary-600 mb-4">Safely sign out of your account.</p>
+                <a href="{% url 'users:logout' %}" class="btn-secondary w-full bg-red-600 hover:bg-red-700">Sign Out</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter Subscription -->
+<section class="py-16 bg-primary-600 text-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Stay Updated</h2>
+        <p class="text-xl text-primary-100 mb-8">Get notified about new posts, features, and community updates.</p>
+        
+        <form method="POST" action="{% url 'newsletter:subscribe' %}" class="max-w-md mx-auto">
+            {% csrf_token %}
+            <div class="flex flex-col sm:flex-row gap-3">
+                <input type="email" name="email" value="{{ user.email }}" 
+                       class="flex-1 px-4 py-3 rounded-lg text-secondary-900 placeholder-secondary-500 focus:outline-none focus:ring-2 focus:ring-white" required>
+                <button type="submit" class="px-6 py-3 bg-white text-primary-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors">
+                    Subscribe
+                </button>
+            </div>
+        </form>
+        
+        <p class="text-sm text-primary-200 mt-4">No spam, unsubscribe at any time.</p>
+    </div>
+</section>
+{% endblock %}

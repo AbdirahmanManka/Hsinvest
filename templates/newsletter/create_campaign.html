@@ -1,0 +1,230 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Create Newsletter Campaign - Admin{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="bg-gradient-to-r from-green-600 to-blue-600 text-white py-16">
+    <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">Create Newsletter Campaign</h1>
+        <p class="text-xl opacity-90 max-w-2xl mx-auto">
+            Create and customize your newsletter campaign
+        </p>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="py-12 bg-gray-50">
+    <div class="container mx-auto px-4 max-w-4xl">
+        <!-- Back Button -->
+        <div class="mb-6">
+            <a href="{% url 'newsletter:admin_dashboard' %}" class="inline-flex items-center text-gray-600 hover:text-gray-900">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Back to Newsletter Dashboard
+            </a>
+        </div>
+
+        <!-- Campaign Form -->
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-xl font-semibold text-gray-900">Campaign Details</h2>
+            </div>
+            
+            <form method="POST" enctype="multipart/form-data" class="p-6 space-y-6">
+                {% csrf_token %}
+                
+                <!-- Basic Information -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Campaign Name *</label>
+                        <input type="text" id="name" name="name" required
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                               placeholder="e.g., Weekly Newsletter - January 2025">
+                    </div>
+                    
+                    <div>
+                        <label for="campaign_type" class="block text-sm font-medium text-gray-700 mb-2">Campaign Type *</label>
+                        <select id="campaign_type" name="campaign_type" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                            <option value="newsletter">Newsletter</option>
+                            <option value="announcement">Announcement</option>
+                            <option value="blog_digest">Blog Digest</option>
+                            <option value="welcome">Welcome Email</option>
+                            <option value="promotional">Promotional</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Email Subject -->
+                <div>
+                    <label for="subject" class="block text-sm font-medium text-gray-700 mb-2">Email Subject *</label>
+                    <input type="text" id="subject" name="subject" required
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                           placeholder="e.g., Your Weekly Dose of Inspiration">
+                </div>
+
+                <!-- Preheader -->
+                <div>
+                    <label for="preheader" class="block text-sm font-medium text-gray-700 mb-2">Preheader Text</label>
+                    <input type="text" id="preheader" name="preheader"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                           placeholder="Preview text that appears after the subject line">
+                    <p class="text-sm text-gray-500 mt-1">This text appears in the email preview. Keep it under 150 characters.</p>
+                </div>
+
+                <!-- Sender Information -->
+                <div class="border-t pt-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Sender Information</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="from_name" class="block text-sm font-medium text-gray-700 mb-2">From Name *</label>
+                            <input type="text" id="from_name" name="from_name" required
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                   value="Habiba's Blog">
+                        </div>
+                        
+                        <div>
+                            <label for="from_email" class="block text-sm font-medium text-gray-700 mb-2">From Email *</label>
+                            <input type="email" id="from_email" name="from_email" required
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                   placeholder="newsletter@habibasblog.com">
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <label for="reply_to_email" class="block text-sm font-medium text-gray-700 mb-2">Reply-To Email</label>
+                        <input type="email" id="reply_to_email" name="reply_to_email"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                               placeholder="replies@habibasblog.com">
+                    </div>
+                </div>
+
+                <!-- Email Content -->
+                <div class="border-t pt-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Email Content</h3>
+                    
+                    <div class="mb-4">
+                        <label for="content" class="block text-sm font-medium text-gray-700 mb-2">Email Content *</label>
+                        <textarea id="content" name="content" required rows="15"
+                                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                  placeholder="Write your newsletter content here... You can use HTML tags for formatting."></textarea>
+                        <p class="text-sm text-gray-500 mt-1">You can use HTML tags for formatting. Basic tags like &lt;p&gt;, &lt;h1&gt;, &lt;h2&gt;, &lt;strong&gt;, &lt;em&gt;, &lt;a&gt; are supported.</p>
+                    </div>
+                    
+                    <div>
+                        <label for="plain_text_content" class="block text-sm font-medium text-gray-700 mb-2">Plain Text Version</label>
+                        <textarea id="plain_text_content" name="plain_text_content" rows="10"
+                                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                  placeholder="Plain text version of your email (optional)"></textarea>
+                        <p class="text-sm text-gray-500 mt-1">Plain text version for email clients that don't support HTML.</p>
+                    </div>
+                </div>
+
+                <!-- Targeting Options -->
+                <div class="border-t pt-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Targeting Options</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="send_to_all" name="send_to_all" checked
+                                   class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded">
+                            <label for="send_to_all" class="ml-2 block text-sm text-gray-900">
+                                Send to all active subscribers
+                            </label>
+                        </div>
+                        
+                        <div id="targeting-options" class="hidden space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Target Categories</label>
+                                <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" name="target_categories" value="technology" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded">
+                                        <span class="ml-2 text-sm text-gray-700">Technology</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" name="target_categories" value="lifestyle" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded">
+                                        <span class="ml-2 text-sm text-gray-700">Lifestyle</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" name="target_categories" value="business" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded">
+                                        <span class="ml-2 text-sm text-gray-700">Business</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" name="target_categories" value="education" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded">
+                                        <span class="ml-2 text-sm text-gray-700">Education</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" name="target_categories" value="health" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded">
+                                        <span class="ml-2 text-sm text-gray-700">Health & Wellness</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" name="target_categories" value="islamic-finance" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded">
+                                        <span class="ml-2 text-sm text-gray-700">Islamic Finance</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="border-t pt-6 flex flex-col sm:flex-row gap-4">
+                    <button type="submit" name="action" value="save_draft"
+                            class="flex-1 bg-yellow-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-yellow-700 transition-colors">
+                        Save as Draft
+                    </button>
+                    <button type="submit" name="action" value="save_and_send"
+                            class="flex-1 bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors">
+                        Save and Send
+                    </button>
+                    <a href="{% url 'newsletter:admin_dashboard' %}"
+                       class="flex-1 bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-700 transition-colors text-center">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+// Toggle targeting options based on "send to all" checkbox
+document.getElementById('send_to_all').addEventListener('change', function() {
+    const targetingOptions = document.getElementById('targeting-options');
+    if (this.checked) {
+        targetingOptions.classList.add('hidden');
+    } else {
+        targetingOptions.classList.remove('hidden');
+    }
+});
+
+// Character counter for preheader
+document.getElementById('preheader').addEventListener('input', function() {
+    const maxLength = 150;
+    const currentLength = this.value.length;
+    const remaining = maxLength - currentLength;
+    
+    // Create or update counter
+    let counter = document.getElementById('preheader-counter');
+    if (!counter) {
+        counter = document.createElement('div');
+        counter.id = 'preheader-counter';
+        counter.className = 'text-sm text-gray-500 mt-1';
+        this.parentNode.appendChild(counter);
+    }
+    
+    counter.textContent = `${currentLength}/${maxLength} characters`;
+    
+    if (remaining < 0) {
+        counter.className = 'text-sm text-red-500 mt-1';
+    } else if (remaining < 20) {
+        counter.className = 'text-sm text-yellow-500 mt-1';
+    } else {
+        counter.className = 'text-sm text-gray-500 mt-1';
+    }
+});
+</script>
+{% endblock %}

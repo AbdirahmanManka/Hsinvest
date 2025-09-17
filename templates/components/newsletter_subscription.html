@@ -1,0 +1,121 @@
+{% load static %}
+
+<!-- Newsletter Subscription Form -->
+<div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-12 px-6 rounded-lg shadow-lg">
+    <div class="max-w-md mx-auto text-center">
+        <h3 class="text-2xl font-bold mb-4">Subscribe to Our Newsletter</h3>
+        <p class="text-primary-100 mb-6">Get the latest posts delivered to your inbox</p>
+        
+        <form method="POST" action="{% url 'newsletter:subscribe' %}" class="space-y-4" id="newsletter-form">
+            {% csrf_token %}
+            
+            <!-- Email Input -->
+            <div>
+                <input type="email" 
+                       name="email" 
+                       id="newsletter-email"
+                       placeholder="Your email address" 
+                       required
+                       class="w-full px-4 py-3 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50">
+            </div>
+            
+            <!-- Name Fields (Optional) -->
+            <div class="grid grid-cols-2 gap-3">
+                <input type="text" 
+                       name="first_name" 
+                       placeholder="First name (optional)"
+                       class="px-4 py-3 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50">
+                <input type="text" 
+                       name="last_name" 
+                       placeholder="Last name (optional)"
+                       class="px-4 py-3 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50">
+            </div>
+            
+            <!-- Frequency Preference -->
+            <div>
+                <select name="frequency_preference" 
+                        class="w-full px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50">
+                    <option value="weekly">Weekly Newsletter</option>
+                    <option value="daily">Daily Updates</option>
+                    <option value="monthly">Monthly Digest</option>
+                    <option value="immediately">Immediate (New Posts)</option>
+                </select>
+            </div>
+            
+            <!-- Subscribe Button -->
+            <button type="submit" 
+                    class="w-full bg-white text-primary-600 font-semibold py-3 px-6 rounded-lg hover:bg-primary-50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50">
+                Subscribe
+            </button>
+            
+            <!-- Privacy Notice -->
+            <p class="text-xs text-primary-200">
+                We respect your privacy. Unsubscribe at any time.
+            </p>
+        </form>
+        
+        <!-- Success/Error Messages -->
+        <div id="newsletter-messages" class="mt-4 hidden">
+            <div id="success-message" class="bg-green-500 text-white p-3 rounded-lg hidden">
+                <p>Thank you for subscribing! Please check your email to confirm your subscription.</p>
+            </div>
+            <div id="error-message" class="bg-red-500 text-white p-3 rounded-lg hidden">
+                <p>Something went wrong. Please try again.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('newsletter-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const form = this;
+    const formData = new FormData(form);
+    const messagesDiv = document.getElementById('newsletter-messages');
+    const successMessage = document.getElementById('success-message');
+    const errorMessage = document.getElementById('error-message');
+    
+    // Show loading state
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Subscribing...';
+    submitBtn.disabled = true;
+    
+    // Hide previous messages
+    messagesDiv.classList.add('hidden');
+    successMessage.classList.add('hidden');
+    errorMessage.classList.add('hidden');
+    
+    fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            successMessage.textContent = data.message || 'Thank you for subscribing! Please check your email to confirm your subscription.';
+            successMessage.classList.remove('hidden');
+            form.reset();
+        } else {
+            errorMessage.textContent = data.message || 'Something went wrong. Please try again.';
+            errorMessage.classList.remove('hidden');
+        }
+        messagesDiv.classList.remove('hidden');
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        errorMessage.textContent = 'Something went wrong. Please try again.';
+        errorMessage.classList.remove('hidden');
+        messagesDiv.classList.remove('hidden');
+    })
+    .finally(() => {
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+    });
+});
+</script>
+

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>{% block title %}HasilInvest: Halal Investing in Canada{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Expert financial advice, Islamic finance, and halal investing guidance for Canadian Muslims{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}halal investing, Islamic finance, financial advice, banking, Canada, Muslim finance{% endblock %}">
+    <meta name="author" content="HasilInvest">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="{% block og_title %}{{ block.super }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ block.super }}{% endblock %}">
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:url" content="{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{% endblock %}">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}{{ block.super }}{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}{{ block.super }}{% endblock %}">
+    <meta name="twitter:image" content="{% block twitter_image %}{{ block.super }}{% endblock %}">
+    
+    <!-- Favicon -->
+    {% load static %}
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon-16x16.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
+    <link rel="shortcut icon" href="{% static 'img/favicon-32x32.png' %}">
+    
+    <!-- Stylesheets -->
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="min-h-full bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="{% url 'core:home' %}" class="flex items-center">
+                        <img class="h-12 w-auto object-contain mr-3" src="{% static 'img/hasil.png' %}" alt="HasilInvest Logo">
+                        <span class="text-xl font-bold text-gradient">HasilInvest</span>
+                    </a>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-center space-x-4">
+                        <a href="{% url 'core:home' %}" class="navbar-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a>
+                        <a href="{% url 'blog:post_list' %}" class="navbar-link {% if 'blog' in request.resolver_match.app_name %}active{% endif %}">Blogs</a>
+                        <a href="{% url 'core:about' %}" class="navbar-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}">About</a>
+                        <a href="{% url 'core:services' %}" class="navbar-link {% if request.resolver_match.url_name == 'services' %}active{% endif %}">Services</a>
+                        <a href="{% url 'core:contact' %}" class="navbar-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">Contact</a>
+                        {% if user.is_authenticated and user.is_staff %}
+                            <a href="{% url 'core:admin_dashboard' %}" class="navbar-link text-red-600 hover:text-red-700">Dashboard</a>
+                        {% else %}
+                            <a href="{% url 'core:admin_login' %}" class="navbar-link text-red-600 hover:text-red-700">Login</a>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Search Button -->
+                <div class="hidden md:block">
+                    <button id="search-toggle" class="btn-secondary">
+                        <i class="fas fa-search mr-2"></i>
+                        Search
+                    </button>
+                </div>
+                
+                <!-- User Menu / Logout -->
+                {% if user.is_authenticated %}
+                <div class="hidden md:block ml-4">
+                    <div class="flex items-center space-x-3">
+                        <span class="text-sm text-gray-600">{{ user.username }}</span>
+                        <a href="{% url 'users:logout' %}" class="text-red-600 hover:text-red-700 transition-colors p-2 rounded-full hover:bg-red-50" title="Logout">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-toggle" class="text-secondary-700 hover:text-primary-600 p-2">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-secondary-200">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="{% url 'core:home' %}" class="block px-3 py-2 text-secondary-700 hover:text-primary-600 hover:bg-primary-50 rounded-md">Home</a>
+                <a href="{% url 'blog:post_list' %}" class="block px-3 py-2 text-secondary-700 hover:text-primary-600 hover:bg-primary-50 rounded-md">Blogs</a>
+                <a href="{% url 'core:about' %}" class="block px-3 py-2 text-secondary-700 hover:text-primary-600 hover:bg-primary-50 rounded-md">About</a>
+                <a href="{% url 'core:services' %}" class="block px-3 py-2 text-secondary-700 hover:text-primary-600 hover:bg-primary-50 rounded-md">Services</a>
+                <a href="{% url 'core:contact' %}" class="block px-3 py-2 text-secondary-700 hover:text-primary-600 hover:bg-primary-50 rounded-md">Contact</a>
+                {% if user.is_authenticated and user.is_staff %}
+                    <a href="{% url 'core:admin_dashboard' %}" class="block px-3 py-2 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-md">Dashboard</a>
+                {% else %}
+                    <a href="{% url 'core:admin_login' %}" class="block px-3 py-2 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-md">Login</a>
+                {% endif %}
+                
+                <!-- Logout for Mobile -->
+                {% if user.is_authenticated %}
+                <div class="border-t border-gray-200 pt-3 mt-3">
+                    <div class="flex items-center justify-between px-3 py-2">
+                        <span class="text-sm text-gray-600">{{ user.username }}</span>
+                        <a href="{% url 'users:logout' %}" class="text-red-600 hover:text-red-700 hover:bg-red-50 p-2 rounded-md transition-colors" title="Logout">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Search Modal -->
+    <div id="search-modal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+            
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-medium text-secondary-900">Search Blogs</h3>
+                        <button id="search-close" class="text-secondary-400 hover:text-secondary-600">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <form method="GET" action="{% url 'blog:search' %}">
+                        <input type="text" name="q" placeholder="Search blogs..." class="form-input mb-4" required>
+                        <button type="submit" class="btn-primary w-full">
+                            <i class="fas fa-search mr-2"></i>
+                            Search
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <main class="flex-1">
+        {% block content %}{% endblock %}
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-secondary-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- About Section -->
+                <div class="col-span-1 md:col-span-2">
+                    <h3 class="text-xl font-bold mb-4">HasilInvest</h3>
+                    <p class="text-secondary-300 mb-4">
+                        Your trusted source for halal investing, Islamic finance, and financial guidance in Canada. Making halal investing simple and accessible.
+                    </p>
+                    <div class="flex space-x-4">
+                        {% if site_config.facebook_url %}
+                        <a href="{{ site_config.facebook_url }}" target="_blank" rel="noopener noreferrer" class="text-secondary-400 hover:text-white transition-colors duration-200">
+                            <i class="fab fa-facebook-f text-xl"></i>
+                        </a>
+                        {% endif %}
+                        {% if site_config.twitter_url %}
+                        <a href="{{ site_config.twitter_url }}" target="_blank" rel="noopener noreferrer" class="text-secondary-400 hover:text-white transition-colors duration-200">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        {% endif %}
+                        {% if site_config.linkedin_url %}
+                        <a href="{{ site_config.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="text-secondary-400 hover:text-white transition-colors duration-200">
+                            <i class="fab fa-linkedin-in text-xl"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="{% url 'core:home' %}" class="text-secondary-300 hover:text-white transition-colors duration-200">Home</a></li>
+                        <li><a href="{% url 'blog:post_list' %}" class="text-secondary-300 hover:text-white transition-colors duration-200">Blogs</a></li>
+                        <li><a href="{% url 'core:about' %}" class="text-secondary-300 hover:text-white transition-colors duration-200">About</a></li>
+                        <li><a href="{% url 'core:services' %}" class="text-secondary-300 hover:text-white transition-colors duration-200">Services</a></li>
+                        <li><a href="{% url 'core:contact' %}" class="text-secondary-300 hover:text-white transition-colors duration-200">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Newsletter -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Stay Updated</h4>
+                    <p class="text-secondary-300 text-sm mb-4">Subscribe to get the latest financial insights and halal investing tips delivered to your inbox.</p>
+                    <form method="POST" action="{% url 'newsletter:subscribe' %}" class="space-y-2" id="footer-newsletter-form">
+                        {% csrf_token %}
+                        <input type="email" name="email" placeholder="Your email" class="w-full px-3 py-2 bg-secondary-800 border border-secondary-700 rounded-lg text-white placeholder-secondary-400 focus:outline-none focus:ring-2 focus:ring-primary-500" required>
+                        <input type="hidden" name="frequency_preference" value="weekly">
+                        <button type="submit" class="w-full btn-primary">
+                            Subscribe
+                        </button>
+                    </form>
+                    
+                    <!-- Success/Error Messages -->
+                    <div id="footer-newsletter-messages" class="mt-2 hidden">
+                        <div id="footer-success-message" class="bg-green-500 text-white p-2 rounded text-sm hidden">
+                            <p>Thank you for subscribing!</p>
+                        </div>
+                        <div id="footer-error-message" class="bg-red-500 text-white p-2 rounded text-sm hidden">
+                            <p>Something went wrong. Please try again.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom Footer -->
+            <div class="border-t border-secondary-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-secondary-400 text-sm">
+                    © 2025 HasilInvest. All rights reserved.
+                </p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="{% url 'core:privacy' %}" class="text-secondary-400 hover:text-white text-sm transition-colors duration-200">Privacy Policy</a>
+                    <a href="{% url 'core:terms' %}" class="text-secondary-400 hover:text-white text-sm transition-colors duration-200">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- JavaScript -->
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-toggle').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Search modal toggle
+        document.getElementById('search-toggle').addEventListener('click', function() {
+            document.getElementById('search-modal').classList.remove('hidden');
+        });
+        
+        document.getElementById('search-close').addEventListener('click', function() {
+            document.getElementById('search-modal').classList.add('hidden');
+        });
+        
+        // Close search modal on escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                document.getElementById('search-modal').classList.add('hidden');
+            }
+        });
+        
+        // Close search modal on backdrop click
+        document.getElementById('search-modal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                this.classList.add('hidden');
+            }
+        });
+        
+        // Footer newsletter form submission
+        document.getElementById('footer-newsletter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const form = this;
+            const formData = new FormData(form);
+            const messagesDiv = document.getElementById('footer-newsletter-messages');
+            const successMessage = document.getElementById('footer-success-message');
+            const errorMessage = document.getElementById('footer-error-message');
+            
+            // Show loading state
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Subscribing...';
+            submitBtn.disabled = true;
+            
+            // Hide previous messages
+            messagesDiv.classList.add('hidden');
+            successMessage.classList.add('hidden');
+            errorMessage.classList.add('hidden');
+            
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    successMessage.textContent = data.message || 'Thank you for subscribing!';
+                    successMessage.classList.remove('hidden');
+                    form.reset();
+                } else {
+                    errorMessage.textContent = data.message || 'Something went wrong. Please try again.';
+                    errorMessage.classList.remove('hidden');
+                }
+                messagesDiv.classList.remove('hidden');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                errorMessage.textContent = 'Something went wrong. Please try again.';
+                errorMessage.classList.remove('hidden');
+                messagesDiv.classList.remove('hidden');
+            })
+            .finally(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            });
+        });
+    </script>
+    
+    <!-- Google Analytics -->
+    {% if GOOGLE_ANALYTICS_ID %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_ANALYTICS_ID }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '{{ GOOGLE_ANALYTICS_ID }}');
+    </script>
+    {% endif %}
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

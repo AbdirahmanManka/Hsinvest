@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ tag.name }} - Blog{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="bg-gradient-to-r from-green-600 to-teal-600 text-white py-16">
+    <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">#{{ tag.name }}</h1>
+        <p class="text-xl opacity-90 max-w-2xl mx-auto">
+            Discover all posts tagged with "{{ tag.name }}"
+        </p>
+        <div class="mt-6">
+            <span class="inline-block bg-white bg-opacity-20 px-4 py-2 rounded-full text-sm">
+                {{ page_obj.paginator.count }} posts
+            </span>
+        </div>
+    </div>
+</div>
+
+<!-- Breadcrumb -->
+<div class="bg-gray-50 py-4">
+    <div class="container mx-auto px-4">
+        <nav class="flex" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                <li class="inline-flex items-center">
+                    <a href="{% url 'core:home' %}" class="text-gray-700 hover:text-green-600">
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                        </svg>
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        <a href="{% url 'blog:post_list' %}" class="text-gray-700 hover:text-green-600 ml-1">Blog</a>
+                    </div>
+                </li>
+                <li aria-current="page">
+                    <div class="flex items-center">
+                        <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="text-gray-500 ml-1">#{{ tag.name }}</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<!-- Tag Info -->
+<div class="py-8 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="inline-flex items-center justify-center w-24 h-24 bg-green-100 rounded-full mb-6">
+                <svg class="w-12 h-12 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
+                </svg>
+            </div>
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">#{{ tag.name }}</h2>
+            <p class="text-lg text-gray-600 mb-6">
+                Explore {{ page_obj.paginator.count }} posts tagged with "{{ tag.name }}"
+            </p>
+            <div class="flex justify-center space-x-4 text-sm text-gray-500">
+                <span>{{ page_obj.paginator.count }} posts</span>
+                <span>• Tag ID: {{ tag.id }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Posts Grid -->
+<div class="py-12 bg-gray-50">
+    <div class="container mx-auto px-4">
+        {% if posts %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for post in posts %}
+                    {% include 'components/blog_card.html' with post=post %}
+                {% endfor %}
+            </div>
+            
+            <!-- Pagination -->
+            {% if is_paginated %}
+                <div class="mt-12 flex justify-center">
+                    <nav class="flex items-center space-x-2">
+                        {% if page_obj.has_previous %}
+                            <a href="?page={{ page_obj.previous_page_number }}" class="px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                                Previous
+                            </a>
+                        {% endif %}
+                        
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                                <span class="px-4 py-2 text-sm font-medium text-white bg-green-600 border border-green-600 rounded-md">
+                                    {{ num }}
+                                </span>
+                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                <a href="?page={{ num }}" class="px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                                    {{ num }}
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}" class="px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                                Next
+                            </a>
+                        {% endif %}
+                    </nav>
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="text-center py-16">
+                <div class="mx-auto w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mb-6">
+                    <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">No posts found</h3>
+                <p class="text-gray-600 mb-6">There are no posts tagged with "{{ tag.name }}" yet.</p>
+                <a href="{% url 'blog:post_list' %}" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-green-600 hover:bg-green-700">
+                    Browse all posts
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Popular Tags -->
+<div class="py-12 bg-white">
+    <div class="container mx-auto px-4">
+        <h3 class="text-2xl font-bold text-center text-gray-900 mb-8">Explore More Tags</h3>
+        <div class="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
+            {% for popular_tag in popular_tags %}
+                {% if popular_tag != tag %}
+                    <a href="{% url 'blog:tag_detail' slug=popular_tag.slug %}" class="inline-flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-green-100 hover:text-green-700 transition-colors">
+                        <span class="text-sm font-medium">#{{ popular_tag.name }}</span>
+                        <span class="ml-2 text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded-full">{{ popular_tag.num_times }}</span>
+                    </a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Newsletter CTA -->
+<div class="bg-gradient-to-r from-green-600 to-teal-600 text-white py-16">
+    <div class="container mx-auto px-4 text-center">
+        <h3 class="text-3xl font-bold mb-4">Stay Updated</h3>
+        <p class="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
+            Get notified when we publish new posts tagged with "{{ tag.name }}" and other interesting content.
+        </p>
+        <form class="max-w-md mx-auto flex gap-4">
+            <input type="email" placeholder="Enter your email" class="flex-1 px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-white">
+            <button type="submit" class="px-6 py-3 bg-white text-green-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors">
+                Subscribe
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

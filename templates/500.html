@@ -1,0 +1,214 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Server Error - Habiba's Blog{% endblock %}
+{% block meta_description %}We're experiencing technical difficulties. Please try again later.{% endblock %}
+
+{% block content %}
+<!-- Error Section -->
+<section class="py-32 bg-gradient-to-r from-red-600 to-red-800 text-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="w-32 h-32 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-8">
+            <i class="fas fa-exclamation-circle text-6xl"></i>
+        </div>
+        
+        <h1 class="text-6xl md:text-8xl font-bold mb-6">500</h1>
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">Server Error</h2>
+        <p class="text-xl text-red-100 max-w-2xl mx-auto mb-8">
+            Oops! Something went wrong on our end. We're working to fix this issue. Please try again in a few moments.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{% url 'core:home' %}" class="btn-primary text-lg px-8 py-4 bg-white text-red-600 hover:bg-gray-100">
+                <i class="fas fa-home mr-2"></i>
+                Go Home
+            </a>
+            <button onclick="location.reload()" class="btn-secondary text-lg px-8 py-4 bg-red-500 hover:bg-red-600">
+                <i class="fas fa-redo mr-2"></i>
+                Try Again
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- What Happened -->
+<section class="py-16 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h3 class="text-2xl font-bold text-secondary-900 mb-4">What Happened?</h3>
+            <p class="text-lg text-secondary-600 max-w-2xl mx-auto">We encountered an unexpected error while processing your request</p>
+        </div>
+        
+        <div class="bg-gray-50 rounded-xl p-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h4 class="text-lg font-bold text-secondary-900 mb-3">Possible Causes</h4>
+                    <ul class="space-y-2 text-secondary-600">
+                        <li class="flex items-start">
+                            <i class="fas fa-times-circle text-red-500 mr-2 mt-1"></i>
+                            Temporary server overload
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-times-circle text-red-500 mr-2 mt-1"></i>
+                            Database connection issues
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-times-circle text-red-500 mr-2 mt-1"></i>
+                            Network connectivity problems
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-times-circle text-red-500 mr-2 mt-1"></i>
+                            Maintenance or updates in progress
+                        </li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold text-secondary-900 mb-3">What You Can Do</h4>
+                    <ul class="space-y-2 text-secondary-600">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                            Wait a few minutes and try again
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                            Clear your browser cache
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                            Check your internet connection
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                            Contact support if the problem persists
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Alternative Actions -->
+<section class="py-16 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h3 class="text-2xl font-bold text-secondary-900 mb-4">While We Fix This</h3>
+            <p class="text-lg text-secondary-600 max-w-2xl mx-auto">Here are some alternative ways to access our content</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="text-center p-6 bg-white rounded-xl shadow-md">
+                <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-mobile-alt text-primary-600 text-xl"></i>
+                </div>
+                <h4 class="text-lg font-bold text-secondary-900 mb-3">Try Mobile</h4>
+                <p class="text-secondary-600 mb-4">Sometimes mobile devices handle errors better than desktop browsers.</p>
+                <button onclick="location.reload()" class="btn-secondary">
+                    <i class="fas fa-redo mr-2"></i>
+                    Refresh Page
+                </button>
+            </div>
+            
+            <div class="text-center p-6 bg-white rounded-xl shadow-md">
+                <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-clock text-primary-600 text-xl"></i>
+                </div>
+                <h4 class="text-lg font-bold text-secondary-900 mb-3">Wait & Retry</h4>
+                <p class="text-secondary-600 mb-4">Give us a few minutes to resolve the issue, then try again.</p>
+                <a href="{% url 'core:home' %}" class="btn-secondary">
+                    <i class="fas fa-home mr-2"></i>
+                    Go Home
+                </a>
+            </div>
+            
+            <div class="text-center p-6 bg-white rounded-xl shadow-md">
+                <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-envelope text-primary-600 text-xl"></i>
+                </div>
+                <h4 class="text-lg font-bold text-secondary-900 mb-3">Report Issue</h4>
+                <p class="text-secondary-600 mb-4">Let us know about this error so we can fix it faster.</p>
+                <a href="{% url 'core:contact' %}" class="btn-secondary">
+                    <i class="fas fa-envelope mr-2"></i>
+                    Contact Support
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Status Updates -->
+<section class="py-16 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h3 class="text-2xl font-bold text-secondary-900 mb-4">System Status</h3>
+            <p class="text-lg text-secondary-600 max-w-2xl mx-auto">Check if we're experiencing any known issues</p>
+        </div>
+        
+        <div class="bg-green-50 border border-green-200 rounded-xl p-6">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-check-circle text-green-400 text-xl"></i>
+                </div>
+                <div class="ml-3">
+                    <h4 class="text-lg font-medium text-green-800">All Systems Operational</h4>
+                    <p class="text-green-700 mt-1">
+                        Our monitoring systems show that all services are currently running normally. 
+                        This appears to be an isolated incident.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-6 text-center">
+            <p class="text-sm text-secondary-500">
+                Last updated: {{ "now"|date:"F d, Y \a\t g:i A" }}
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter CTA -->
+<section class="py-16 bg-primary-600 text-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Stay Connected</h2>
+        <p class="text-xl text-primary-100 mb-8">Get notified when we're back up and running, plus receive updates about new features.</p>
+        
+        <form method="POST" action="{% url 'newsletter:subscribe' %}" class="max-w-md mx-auto">
+            {% csrf_token %}
+            <div class="flex flex-col sm:flex-row gap-3">
+                <input type="email" name="email" placeholder="Your email address" 
+                       class="flex-1 px-4 py-3 rounded-lg text-secondary-900 placeholder-secondary-500 focus:outline-none focus:ring-2 focus:ring-white" required>
+                <button type="submit" class="px-6 py-3 bg-white text-primary-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors">
+                    Subscribe
+                </button>
+            </div>
+        </form>
+        
+        <p class="text-sm text-primary-200 mt-4">No spam, unsubscribe at any time.</p>
+    </div>
+</section>
+
+<!-- Social Media -->
+<section class="py-16 bg-gray-50">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h3 class="text-2xl font-bold text-secondary-900 mb-4">Follow Us for Updates</h3>
+        <p class="text-lg text-secondary-600 mb-8">Get real-time updates about our services and any maintenance</p>
+        
+        <div class="flex justify-center space-x-6">
+            <a href="#" class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center text-primary-600 hover:bg-primary-200 transition-colors">
+                <i class="fab fa-twitter text-xl"></i>
+            </a>
+            <a href="#" class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center text-primary-600 hover:bg-primary-200 transition-colors">
+                <i class="fab fa-facebook-f text-xl"></i>
+            </a>
+            <a href="#" class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center text-primary-600 hover:bg-primary-200 transition-colors">
+                <i class="fab fa-linkedin-in text-xl"></i>
+            </a>
+            <a href="#" class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center text-primary-600 hover:bg-primary-200 transition-colors">
+                <i class="fab fa-github text-xl"></i>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Page Not Found - Habiba's Blog{% endblock %}
+{% block meta_description %}The page you're looking for could not be found.{% endblock %}
+
+{% block content %}
+<!-- Error Section -->
+<section class="py-32 bg-gradient-to-r from-primary-600 to-primary-800 text-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="w-32 h-32 bg-primary-500 rounded-full flex items-center justify-center mx-auto mb-8">
+            <i class="fas fa-exclamation-triangle text-6xl"></i>
+        </div>
+        
+        <h1 class="text-6xl md:text-8xl font-bold mb-6">404</h1>
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">Page Not Found</h2>
+        <p class="text-xl text-primary-100 max-w-2xl mx-auto mb-8">
+            Oops! The page you're looking for doesn't exist. It might have been moved, deleted, or you entered the wrong URL.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{% url 'core:home' %}" class="btn-primary text-lg px-8 py-4">
+                <i class="fas fa-home mr-2"></i>
+                Go Home
+            </a>
+            <a href="{% url 'blog:post_list' %}" class="btn-secondary text-lg px-8 py-4">
+                <i class="fas fa-book-open mr-2"></i>
+                Browse Blog
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Helpful Links -->
+<section class="py-16 bg-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h3 class="text-2xl font-bold text-secondary-900 mb-4">Looking for something specific?</h3>
+            <p class="text-lg text-secondary-600 max-w-2xl mx-auto">Here are some helpful links to get you back on track</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="text-center p-6 bg-gray-50 rounded-xl">
+                <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-search text-primary-600 text-xl"></i>
+                </div>
+                <h4 class="text-lg font-bold text-secondary-900 mb-3">Search Our Blog</h4>
+                <p class="text-secondary-600 mb-4">Use our search feature to find the content you're looking for.</p>
+                <a href="{% url 'blog:search' %}" class="btn-secondary">
+                    <i class="fas fa-search mr-2"></i>
+                    Search Posts
+                </a>
+            </div>
+            
+            <div class="text-center p-6 bg-gray-50 rounded-xl">
+                <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-list text-primary-600 text-xl"></i>
+                </div>
+                <h4 class="text-lg font-bold text-secondary-900 mb-3">Browse Categories</h4>
+                <p class="text-secondary-600 mb-4">Explore our content organized by topics and categories.</p>
+                <a href="{% url 'blog:post_list' %}" class="btn-secondary">
+                    <i class="fas fa-list mr-2"></i>
+                    View Categories
+                </a>
+            </div>
+            
+            <div class="text-center p-6 bg-gray-50 rounded-xl">
+                <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-envelope text-primary-600 text-xl"></i>
+                </div>
+                <h4 class="text-lg font-bold text-secondary-900 mb-3">Contact Support</h4>
+                <p class="text-secondary-600 mb-4">Can't find what you're looking for? Get in touch with us.</p>
+                <a href="{% url 'core:contact' %}" class="btn-secondary">
+                    <i class="fas fa-envelope mr-2"></i>
+                    Contact Us
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Popular Posts -->
+<section class="py-16 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h3 class="text-2xl font-bold text-secondary-900 mb-4">Popular Posts</h3>
+            <p class="text-lg text-secondary-600 max-w-2xl mx-auto">Check out some of our most popular content</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <div class="w-full h-48 bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
+                    <i class="fas fa-image text-4xl text-primary-400"></i>
+                </div>
+                <div class="p-6">
+                    <h4 class="text-lg font-bold text-secondary-900 mb-3">Getting Started with Django</h4>
+                    <p class="text-secondary-600 text-sm mb-4">Learn the basics of Django web development and build your first application.</p>
+                    <a href="{% url 'blog:post_list' %}" class="text-primary-600 hover:text-primary-800 font-medium text-sm">
+                        Read More →
+                    </a>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <div class="w-full h-48 bg-gradient-to-br from-secondary-100 to-secondary-200 flex items-center justify-center">
+                    <i class="fas fa-image text-4xl text-secondary-400"></i>
+                </div>
+                <div class="p-6">
+                    <h4 class="text-lg font-bold text-secondary-900 mb-3">Modern CSS Techniques</h4>
+                    <p class="text-secondary-600 text-sm mb-4">Explore advanced CSS features and modern layout techniques.</p>
+                    <a href="{% url 'blog:post_list' %}" class="text-primary-600 hover:text-primary-800 font-medium text-sm">
+                        Read More →
+                    </a>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <div class="w-full h-48 bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center">
+                    <i class="fas fa-image text-4xl text-green-400"></i>
+                </div>
+                <div class="p-6">
+                    <h4 class="text-lg font-bold text-secondary-900 mb-3">Web Development Best Practices</h4>
+                    <p class="text-secondary-600 text-sm mb-4">Discover industry best practices for building robust web applications.</p>
+                    <a href="{% url 'blog:post_list' %}" class="text-primary-600 hover:text-primary-800 font-medium text-sm">
+                        Read More →
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-12">
+            <a href="{% url 'blog:post_list' %}" class="btn-primary">
+                <i class="fas fa-arrow-right mr-2"></i>
+                View All Posts
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter CTA -->
+<section class="py-16 bg-primary-600 text-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Stay Updated</h2>
+        <p class="text-xl text-primary-100 mb-8">Get notified about new posts and never miss our latest content.</p>
+        
+        <form method="POST" action="{% url 'newsletter:subscribe' %}" class="max-w-md mx-auto">
+            {% csrf_token %}
+            <div class="flex flex-col sm:flex-row gap-3">
+                <input type="email" name="email" placeholder="Your email address" 
+                       class="flex-1 px-4 py-3 rounded-lg text-secondary-900 placeholder-secondary-500 focus:outline-none focus:ring-2 focus:ring-white" required>
+                <button type="submit" class="px-6 py-3 bg-white text-primary-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors">
+                    Subscribe
+                </button>
+            </div>
+        </form>
+        
+        <p class="text-sm text-primary-200 mt-4">No spam, unsubscribe at any time.</p>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,215 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About - HasilInvest: Halal Investing in Canada{% endblock %}
+{% block meta_description %}Learn more about HasilInvest, your trusted source for halal investing, Islamic finance, and financial guidance in Canada.{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6">About HasilInvest</h1>
+        <p class="text-xl md:text-2xl text-primary-100 max-w-3xl mx-auto">
+            Your trusted partner in halal investing, Islamic finance, and Sharia-compliant financial planning in Canada.
+        </p>
+    </div>
+</section>
+
+<!-- About Content -->
+<section class="py-16 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        {% if page %}
+        <div class="prose prose-lg max-w-none">
+            {{ page.content|safe }}
+        </div>
+        {% else %}
+        <div class="text-center mb-12">
+            <div class="w-32 h-32 bg-gradient-to-br from-primary-100 to-primary-200 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-chart-line text-4xl text-primary-600"></i>
+            </div>
+            <h2 class="text-3xl font-bold text-secondary-900 mb-4">About HasilInvest</h2>
+            <p class="text-lg text-secondary-600 max-w-3xl mx-auto mb-6">
+                A platform I created to make investing and personal finance easy to understand
+            </p>
+            <p class="text-lg text-secondary-600 max-w-3xl mx-auto mb-6">
+                Focused on ethical and halal investing, but open for anyone who wants to grow wealth responsibly
+            </p>
+            <p class="text-lg text-secondary-600 max-w-3xl mx-auto mb-6">
+                My goal is to help students, young professionals, and newcomers build confidence with money
+            </p>
+            <div class="bg-primary-50 p-6 rounded-xl max-w-2xl mx-auto">
+                <h3 class="text-xl font-bold text-primary-800 mb-3">Our Vision</h3>
+                <p class="text-primary-700">
+                    To become a trusted place where learning finance feels simple, practical, and relatable
+                </p>
+            </div>
+        </div>
+        
+        <div class="mb-12">
+            <h2 class="text-3xl font-bold text-secondary-900 mb-8 text-center">Blog Focus</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-chart-pie text-primary-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-secondary-900 mb-3">Basics of Investing</h3>
+                    <p class="text-secondary-600">
+                        Stocks, ETFs, bonds, and portfolio building explained in simple terms
+                    </p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-mosque text-primary-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-secondary-900 mb-3">Halal & Ethical Finance</h3>
+                    <p class="text-secondary-600">
+                        Islamic finance principles explained in clear, practical language
+                    </p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-newspaper text-primary-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-secondary-900 mb-3">Market Updates</h3>
+                    <p class="text-secondary-600">
+                        What market movements mean for everyday investors
+                    </p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-piggy-bank text-primary-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-secondary-900 mb-3">Personal Finance Tips</h3>
+                    <p class="text-secondary-600">
+                        Budgeting, saving, debt management, and future planning
+                    </p>
+                </div>
+            </div>
+            
+            <div class="mt-8 bg-gradient-to-r from-primary-50 to-primary-100 p-8 rounded-xl">
+                <h3 class="text-2xl font-bold text-secondary-900 mb-4 text-center">What You'll Find Here</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold text-secondary-900 mb-2">Step-by-step guides</h4>
+                        <p class="text-secondary-600">Clear, actionable instructions for your investing journey</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-secondary-900 mb-2">Real lessons from my journey</h4>
+                        <p class="text-secondary-600">Personal experiences and insights from my own investing path</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-primary-50 p-8 rounded-xl text-center">
+            <h3 class="text-2xl font-bold text-secondary-900 mb-4">Our Mission</h3>
+            <p class="text-lg text-secondary-700 max-w-3xl mx-auto">
+                To help students, young professionals, and newcomers build confidence with money through 
+                simple, practical, and relatable financial education. We focus on ethical and halal investing 
+                while making personal finance accessible to everyone who wants to grow wealth responsibly.
+            </p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Skills & Technologies -->
+<section class="py-16 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">What We Cover</h2>
+            <p class="text-lg text-secondary-600 max-w-2xl mx-auto">Key areas of financial education and guidance</p>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="bg-white p-6 rounded-xl text-center shadow-md hover:shadow-lg transition-shadow">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-chart-line text-green-600 text-2xl"></i>
+                </div>
+                <h3 class="font-bold text-secondary-900">Investing Basics</h3>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl text-center shadow-md hover:shadow-lg transition-shadow">
+                <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-mosque text-primary-600 text-2xl"></i>
+                </div>
+                <h3 class="font-bold text-secondary-900">Halal Finance</h3>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl text-center shadow-md hover:shadow-lg transition-shadow">
+                <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-piggy-bank text-purple-600 text-2xl"></i>
+                </div>
+                <h3 class="font-bold text-secondary-900">Personal Finance</h3>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl text-center shadow-md hover:shadow-lg transition-shadow">
+                <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-graduation-cap text-orange-600 text-2xl"></i>
+                </div>
+                <h3 class="font-bold text-secondary-900">Financial Literacy</h3>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Testimonials Section -->
+{% if testimonials %}
+<section class="py-16 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">What People Say</h2>
+            <p class="text-lg text-secondary-600 max-w-2xl mx-auto">Testimonials from colleagues and clients</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for testimonial in testimonials %}
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mr-4">
+                        <i class="fas fa-user text-primary-600"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-secondary-900">{{ testimonial.name }}</h4>
+                        <p class="text-sm text-secondary-600">{{ testimonial.position|default:"Colleague" }}</p>
+                    </div>
+                </div>
+                <p class="text-secondary-700 italic">"{{ testimonial.content }}"</p>
+                {% if testimonial.rating %}
+                <div class="flex items-center mt-3">
+                    {% for i in "12345" %}
+                    <i class="fas fa-star {% if forloop.counter <= testimonial.rating %}text-yellow-400{% else %}text-gray-300{% endif %} text-sm"></i>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Contact CTA -->
+<section class="py-16 bg-primary-600 text-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Let's Connect</h2>
+        <p class="text-xl text-primary-100 mb-8">
+            Have a question or want to collaborate? I'd love to hear from you!
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{% url 'core:contact' %}" class="btn-secondary text-lg px-8 py-4">
+                <i class="fas fa-envelope mr-2"></i>
+                Get in Touch
+            </a>
+            <a href="{% url 'blog:post_list' %}" class="btn-primary text-lg px-8 py-4">
+                <i class="fas fa-chart-line mr-2"></i>
+                Read Blogs
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

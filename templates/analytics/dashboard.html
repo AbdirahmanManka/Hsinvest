@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}Analytics Dashboard - Audience Growth{% endblock %}
+
+{% block content %}
+<div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-12">
+  <div class="container mx-auto px-4 text-center">
+    <h1 class="text-3xl md:text-4xl font-bold">Audience Growth</h1>
+    <p class="opacity-90 mt-2">Traffic for the last 30 days ({{ start_date }} → {{ end_date }})</p>
+  </div>
+  </div>
+
+<div class="py-10 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-semibold text-gray-800">Daily Views vs Unique Visitors</h2>
+      </div>
+      <canvas id="audienceChart" height="90"></canvas>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+  const labels = {{ labels|safe }};
+  const viewsData = {{ views_series|safe }};
+  const uniqueData = {{ unique_series|safe }};
+
+  const ctx = document.getElementById('audienceChart').getContext('2d');
+  const gradient1 = ctx.createLinearGradient(0, 0, 0, 300);
+  gradient1.addColorStop(0, 'rgba(239,68,68,0.35)');
+  gradient1.addColorStop(1, 'rgba(239,68,68,0.03)');
+
+  const gradient2 = ctx.createLinearGradient(0, 0, 0, 300);
+  gradient2.addColorStop(0, 'rgba(59,130,246,0.35)');
+  gradient2.addColorStop(1, 'rgba(59,130,246,0.03)');
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Total Views',
+          data: viewsData,
+          borderColor: 'rgb(239,68,68)',
+          backgroundColor: gradient1,
+          tension: 0.35,
+          fill: true,
+          pointRadius: 2,
+        },
+        {
+          label: 'Unique Visitors',
+          data: uniqueData,
+          borderColor: 'rgb(59,130,246)',
+          backgroundColor: gradient2,
+          tension: 0.35,
+          fill: true,
+          pointRadius: 2,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { position: 'top' },
+        tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y}` } }
+      },
+      scales: {
+        x: { grid: { display: false } },
+        y: { beginAtZero: true }
+      }
+    }
+  });
+</script>
+{% endblock %}
+
+
